@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+
+    <% include ./include/head %>
+   
+        <div class="container">
+            <div class="row">
+                <h1>Upload Data</h1>
+            </div>
+            <hr>
+            <div class="row">
+
+                    <form id="formdata" action="/users/fileupload" method="POST" enctype="multipart/form-data">
+                            <div class="form-group">
+                              <label for="exampleInputEmail1">Upload csv File</label>
+                              <input type="file" name="file" class="form-control">
+                            </div>
+                           
+                           <button type="submit" class="btn btn-primary">Submit</button>
+                          </form>
+                
+            </div>
+        </div>
+
+ 
+

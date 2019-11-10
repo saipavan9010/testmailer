@@ -21,11 +21,13 @@ app.use(fileUpload());
 app.use(bodyParser.json({limit: '50mb'}));
 app.use(bodyParser.urlencoded({limit: '50mb', extended: true}))
 
+
+
 app.set('secretKey', 'testinnode'); //jwt secret token
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+app.set('view engine', 'ejs');
 app.use(cors());
 
 app.use(logger('dev'));
