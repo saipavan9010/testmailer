@@ -11,7 +11,7 @@ exports.fileupload = async function (req, res) {
      
     var authorFile = req.files.file;
     var authors = [];
-   await csv.parseString(authorFile.data.toString(), {
+   await csv.fromString(authorFile.data.toString(), {
          headers: true,
          ignoreEmpty: true
      })
@@ -56,7 +56,7 @@ exports.customlist = async function (req, res) {
   query.skip = size * (page - 1)
   query.limit = size
   query.sort=sort
- await  Author.countDocuments(search_query,function(err,totalCount) {
+ await  Author.count(search_query,function(err,totalCount) {
     if(err) {
       response = {"error" : true,"message" : "Error fetching data"}
     }
@@ -89,7 +89,7 @@ exports.sendmail=async function (req, res,next) {
     // send mail with defined transport object
         let info =  transporter.sendMail({
             from: 'saipavan9010@gmail.com', // sender address
-            to:"saipavan4739@gmail.com",
+            to:user_data.email,
             subject: 'Hello ✔', // Subject line
             html: `<b>Hey `+user_data.first_name+`</b><br>
                     NAME:`+user_data.first_name+` `+user_data.last_name+`<br>

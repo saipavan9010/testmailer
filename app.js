@@ -17,6 +17,7 @@ var jwt = require('jsonwebtoken');
 var cors = require('cors')
 var app = express();
 app.use(fileUpload());
+app.disable('etag');
 
 app.use(bodyParser.json({limit: '50mb'}));
 app.use(bodyParser.urlencoded({limit: '50mb', extended: true}))
