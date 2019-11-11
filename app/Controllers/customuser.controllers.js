@@ -11,7 +11,7 @@ exports.fileupload = async function (req, res) {
      
     var authorFile = req.files.file;
     var authors = [];
-   await csv.fromString(authorFile.data.toString(), {
+   await csv.parseString(authorFile.data.toString(), {
          headers: true,
          ignoreEmpty: true
      })
@@ -56,7 +56,7 @@ exports.customlist = async function (req, res) {
   query.skip = size * (page - 1)
   query.limit = size
   query.sort=sort
- await  Author.count(search_query,function(err,totalCount) {
+ await  Author.countDocuments(search_query,function(err,totalCount) {
     if(err) {
       response = {"error" : true,"message" : "Error fetching data"}
     }
