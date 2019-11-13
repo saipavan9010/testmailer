@@ -11,7 +11,7 @@ const Users = require('../app/Controllers/user.controllers.js');
 // Retrieve all Users
 router.post('/create', Users.User_create);
 router.post('/login', Users.User_login);
-router.get('/detail/:Id', Users.User_detail);
+
 
 router.get('/fileupload', function(req, res) {
     res.render('index');
