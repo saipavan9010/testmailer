@@ -9,7 +9,7 @@
     </head>
     <div class="container">
         <div class="row">
-            <h1>Table List</h1> <a href="/">Back to Upload Page</a>
+            <h1>Table List</h1> <a href="/users/fileupload">Back to Upload Page</a>
         </div>
         <hr>
         <table id="data-table" class="table table-hover table_width display">
@@ -26,103 +26,95 @@
                 </thead>
         </table>
     </div>
-            <script>
-var tableName = '#data-table';
-var table = $(tableName);
-$(document).ready(function() {
-$('body').on('click', '.send_mail', function(){
-var id=$(this).data('value');
-    $.ajax({
-    type:"GET",
-    url: "/users/sendmail/"+id,
-    success:function(data){
-            alert("mail sent");
-    }
-    });
-});
-
-table = table.DataTable( {
-    "processing": true,
-    "serverSide": true,
-    "ajax": {
-        "url":"users/customerlist",
-        "type": "GET",
-        'beforeSend': function (request) {
-            // showLoader();
-        },
-        data: function(data){
-            
-            var info = $(tableName).DataTable().page.info();
-            delete data.columns;
-            data.page = info.page + 1;
-            data.search_text = data.search['value'];
-            data.order_by = $(tableName+' tr').eq(0).find('th').eq(data.order[0]['column']).data('value');
-            data.order_direction = data.order[0]['dir'];
-        },
-        dataFilter: function(data){
-            var json = JSON.parse( data );
-            json.recordsTotal = json.pages;
-            json.recordsFiltered=json.pages;
-            json.data = json.responseData;
-            // hideLoader();
-            return JSON.stringify( json ); // return JSON string
-        }
-    },
-    "columns": [
-        { "data": "id"  ,render: function (data, type, row, meta) {
-            return meta.row + meta.settings._iDisplayStart + 1;
+<script>
+    
+    $(document).ready(function() {
+        var tableName = '#data-table';
+        var table = $(tableName);
+        $('body').on('click', '.send_mail', function(){
+        var id=$(this).data('value');
+            $.ajax({
+            type:"GET",
+            headers: {"Authorization": localStorage.getItem('token')},
+            url: "/user/sendmail/"+id,
+            success:function(data){
+                    alert(data.message);
             }
+            });
+        });
+
+        table = table.DataTable( {
+            "processing": true,
+            "serverSide": true,
+            "ajax": {
+                "url":"users/customerlist",
+                "type": "GET",
+                'beforeSend': function (request) {
+                    // showLoader();
+                },
+                data: function(data){
+                    
+                    var info = $(tableName).DataTable().page.info();
+                    delete data.columns;
+                    data.page = info.page + 1;
+                    data.search_text = data.search['value'];
+                    data.order_by = $(tableName+' tr').eq(0).find('th').eq(data.order[0]['column']).data('value');
+                    data.order_direction = data.order[0]['dir'];
+                },
+                dataFilter: function(data){
+                    var json = JSON.parse( data );
+                    json.recordsTotal = json.pages;
+                    json.recordsFiltered=json.pages;
+                    json.data = json.responseData;
+                    // hideLoader();
+                    return JSON.stringify( json ); // return JSON string
+                }
             },
-            { "data": "first_name" ,render: function (data, type, row) {
-                return data;
-            }
-        },
-        { "data": "last_name" ,render: function (data, type, row) {
-                return data;
-            }
-        },
-        { "data": "email" ,render: function (data, type, row) {
-            return data;
-            }
-        },
-        { "data": "mobile_no" ,render: function (data, type, row) {
-                return data;
-            }
-        },
-        
-        { "data": "_id" ,render: function (data, type, row) {
+            "columns": [
+                { "data": "id"  ,render: function (data, type, row, meta) {
+                    return meta.row + meta.settings._iDisplayStart + 1;
+                    }
+                    },
+                    { "data": "first_name" ,render: function (data, type, row) {
+                        return data;
+                    }
+                },
+                { "data": "last_name" ,render: function (data, type, row) {
+                        return data;
+                    }
+                },
+                { "data": "email" ,render: function (data, type, row) {
+                    return data;
+                    }
+                },
+                { "data": "mobile_no" ,render: function (data, type, row) {
+                        return data;
+                    }
+                },
+                
+                { "data": "_id" ,render: function (data, type, row) {
 
-            return '<button type="button" class="btn btn-primary send_mail" data-value="'+data+'">Send Mail</button>';
-            }
-        }
-        
+                    return '<button type="button" class="btn btn-primary send_mail" data-value="'+data+'">Send Mail</button>';
+                    }
+                }
+                
 
-    ],
-    responsive: true,
-    paging:true,
-        info:true,
-        lengthChange:false,
-        dom: 'Bfrtip',
-        buttons: [{}],
-        "drawCallback": function () {
-        var info = $(this).DataTable().page.info();
-           
-        }
+            ],
+            responsive: true,
+            paging:true,
+                info:true,
+                lengthChange:false,
+                dom: 'Bfrtip',
+                buttons: [{}],
+                "drawCallback": function () {
+                var info = $(this).DataTable().page.info();
+                
+                }
+            });
+
+
     });
-
-
-});
-                    
-          
-                    
-
-
-                    
-
-
-
-                   
- </script>                       
+</script>                       
                         
 
 

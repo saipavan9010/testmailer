@@ -39,6 +39,8 @@ app.use(express.static(path.join(__dirname, 'public')));
   
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/user',validateUser,usersRouter);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -53,6 +55,38 @@ mongoose.connect(dbConfig.url, {
   console.log('Could not connect to the database. Exiting now...', err);
   process.exit();
 });
+
+function validateUser(req, res, next) {
+  //  console.log(req.headers['authorization']);
+  let token = req.headers['x-access-token'] || req.headers['authorization']; // Express headers are auto converted to lowercase
+  //console.log(token);
+  if (token.startsWith('Bearer ')) {
+    //console.log("pavan");
+    // Remove Bearer from string
+    token = token.slice(7, token.length);
+  }
+  
+  if (token) {
+    //console.log(token);
+     jwt.verify(token, req.app.get('secretKey'), function(err, decoded) {
+    if (err) {
+      res.status(422).json({message: err.message, data:null});
+    }else{
+      // add user id to request
+      req.body.userId = decoded.id;
+      next();
+    }
+  });
+
+
+  }else {
+    return res.json({
+      success: false,
+      message: 'Auth token is not supplied'
+    });
+  }
+ 
+}
 
 
 

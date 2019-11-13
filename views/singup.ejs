@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+
+    <% include ./include/head %>
+   
+        <div class="container">
+            <div class="row">
+                <h1>Singup with Smtp Credentails</h1>
+            </div>
+            <hr>
+            <div class="row">
+
+                    <form id="formdata" >
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">First name</label>
+                            <input type="text" name="first_name" class="form-control">
+                          </div>
+
+                          <div class="form-group">
+                              <label for="exampleInputEmail1">Last Name</label>
+                              <input type="text" name="last_name" class="form-control">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Username</label>
+                                <input type="text" name="user_name" class="form-control">
+                              </div>
+                              <div class="form-group">
+                                  <label for="exampleInputEmail1">Mobile no</label>
+                                  <input type="number" name="mobile_no" class="form-control">
+                                </div>
+                            <div class="form-group">
+                              <label for="exampleInputEmail1">Smtp Email</label>
+                              <input type="text" name="email" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Login password</label>
+                                <input type="password" name="password" class="form-control">
+                              </div>
+                              <div class="form-group">
+                                <label for="exampleInputEmail1">Smtp password</label>
+                                <input type="password" name="smtp_password" class="form-control">
+                              </div>
+                           
+                           <button type="submit" class="btn btn-primary">Singup</button>
+                          </form>
+                
+            </div>
+        </div>
+        <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
+        <script>
+    
+            $(document).ready(function() {
+              $("#formdata").validate({
+                    // Specify validation rules
+                    rules: {
+                    
+                    email: {
+                        required: true,
+                        // Specify that email should be validated
+                        // by the built-in "email" rule
+                        email: true
+                    },
+                    password: {
+                        required: true,
+                        minlength: 5
+                    },
+                    password: {
+                        required: true,
+                        minlength: 5
+                    }
+                    },
+                    // Specify validation error messages
+                    messages: {
+                    
+                    password: {
+                        required: "Please provide a password",
+                        minlength: "Your password must be at least 5 characters long"
+                    },
+                    email: "Please enter a valid email address",
+                    smtp_password: "Please provide a smtp password",
+                    },
+                    // Make sure the form is submitted to the destination defined
+                    // in the "action" attribute of the form when valid
+                    submitHandler: function(form) {
+                        var data=$(form).serialize()
+                        $.ajax({
+                            type: 'POST',
+                            url: 'users/create',
+                            data:data  // getting filed value in serialize form
+                            })
+                            .done(function(data){
+                                alert("created Successfully")
+                            window.location.href="/";
+
+                            })
+                            .fail(function(data) { // if fail then getting message
+
+                            // just in case posting your form failed
+                            alert(data.responseJSON);
+
+                        });
+                    }
+
+
+                });
+
+
+
+
+            });
+            
+            
+         </script>   
+
+
+
+
+ 
+

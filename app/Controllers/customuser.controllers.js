@@ -1,5 +1,6 @@
 
 var Author = require('../models/custom_user.model');
+var Users = require('../models/user.model');
 var csv = require('fast-csv');
 var mongoose = require('mongoose');
 const nodemailer = require('nodemailer');
@@ -75,20 +76,22 @@ exports.customlist = async function (req, res) {
 
 exports.sendmail=async function (req, res,next) {
     try{
+        
         var user_data=await Author.findById(req.params.Id);
-        console.log(user_data);
+        var user_details=await Users.findById(req.body.userId);
+        console.log(user_details);
         let transporter = nodemailer.createTransport({
             host: 'smtp.gmail.com',
             port: 587,
             secure: false,
             auth: {
-                user:"saipavan9010@gmail.com", 
-                pass: "darlingpavan1" 
+                user:user_details.email, 
+                pass:user_details.smtp_password 
             },tls: {rejectUnauthorized: false}
         });
     // send mail with defined transport object
         let info =  transporter.sendMail({
-            from: 'saipavan9010@gmail.com', // sender address
+            from:user_details.email, // sender address
             to:user_data.email,
             subject: 'Hello ✔', // Subject line
             html: `<b>Hey `+user_data.first_name+`</b><br>
@@ -100,12 +103,12 @@ exports.sendmail=async function (req, res,next) {
 
         });
     
-        console.log('Message sent: %s', info.messageId);
-        return res.status(200).send(info.messageId);
+        return res.status(200).json({message:"Mail send to "+user_data.email});
 
     }catch (e) {
         // Log Errors
-        throw Error(e.message);
+        console.log(e.message);
+        return res.status(422).json({message:"Mail Failed to send "+user_data.email});
     }
     
  };

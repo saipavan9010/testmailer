@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+
+    <% include ./include/head %>
+   
+        <div class="container">
+            <div class="row">
+                <h1>Login Here</h1>
+            </div>
+            <hr>
+            <div class="row">
+
+                    <form id="formdata" >
+                            <div class="form-group">
+                              <label for="exampleInputEmail1">Email</label>
+                              <input type="text" name="email" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">password</label>
+                                <input type="password" name="password" class="form-control">
+                              </div>
+                           
+                           <button type="submit" class="btn btn-primary">Login</button>
+                           <a href="/singup" >Signup</a>
+                          </form>
+                
+            </div>
+        </div>
+        <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
+        <script>
+    
+            $(document).ready(function() {
+                $("#formdata").validate({
+                    // Specify validation rules
+                    rules: {
+                    
+                    email: {
+                        required: true,
+                        // Specify that email should be validated
+                        // by the built-in "email" rule
+                        email: true
+                    },
+                    password: {
+                        required: true,
+                        minlength: 5
+                    }
+                    },
+                    // Specify validation error messages
+                    messages: {
+                    
+                    password: {
+                        required: "Please provide a password",
+                        minlength: "Your password must be at least 5 characters long"
+                    },
+                    email: "Please enter a valid email address"
+                    },
+                    // Make sure the form is submitted to the destination defined
+                    // in the "action" attribute of the form when valid
+                    submitHandler: function(form) {
+                        var data=$(form).serialize()
+                        $.ajax({
+                            type: 'POST',
+                            url: 'users/login',
+                            data:data  // getting filed value in serialize form
+                            })
+                            .done(function(data){
+                                console.log(data);
+                                // if getting done then call.
+                                localStorage.setItem('token',data.data.token);
+                            window.location.href="/users/fileupload";
+
+                            })
+                            .fail(function(data) { // if fail then getting message
+
+                            // just in case posting your form failed
+                            alert(data.responseJSON.message);
+
+                        });
+                    }
+
+
+                });
+
+
+
+
+            });
+            
+            
+         </script>   
+
+
+
+
+ 
+
