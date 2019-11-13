@@ -8,7 +8,7 @@ const UserSchema = mongoose.Schema({
     mobile_no: {type:Number,unique:true},
     email: {type:String,unique:true,required:true,message: 'Email is Already exist'},
     user_name: String,
-    smtp_password: String,
+    
     password:{type:String,required: true} 
     
 }, {

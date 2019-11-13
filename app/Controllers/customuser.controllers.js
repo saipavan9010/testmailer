@@ -85,8 +85,8 @@ exports.sendmail=async function (req, res,next) {
             port: 587,
             secure: false,
             auth: {
-                user:user_details.email, 
-                pass:user_details.smtp_password 
+                user:"saipavan9010@gmail.com", 
+                pass:"darlingpavan1", 
             },tls: {rejectUnauthorized: false}
         });
     // send mail with defined transport object
