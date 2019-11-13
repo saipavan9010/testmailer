@@ -12,7 +12,6 @@ exports.saveUsers = async function (req,res,next) {
                 mobile_no: req.body.mobile_no,
                 email: req.body.email,
                 password: req.body.password,
-                smtp_password: req.body.smtp_password,
             }
         );
       let user_data=await user.save();
