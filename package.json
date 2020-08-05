@@ -14,7 +14,7 @@
     "debug": "~2.6.9",
     "ejs": "^2.7.1",
     "express": "^4.16.4",
-    "express-fileupload": "^1.1.6-alpha.6",
+    "express-fileupload": "^1.1.9",
     "fast-csv": "^3.4.0",
     "fs": "0.0.1-security",
     "http-errors": "~1.6.3",
